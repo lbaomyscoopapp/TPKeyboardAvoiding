@@ -58,6 +58,7 @@
     return [self TPKeyboardAvoiding_focusNextTextField];
     
 }
+
 - (void)scrollToActiveTextField {
     return [self TPKeyboardAvoiding_scrollToActiveTextField];
 }

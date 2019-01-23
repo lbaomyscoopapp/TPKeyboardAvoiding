@@ -33,6 +33,8 @@ static const int kStateKey;
 
 @implementation UIScrollView (TPKeyboardAvoidingAdditions)
 
+BOOL isEnableScrollUp = YES;
+
 - (TPKeyboardAvoidingState*)keyboardAvoidingState {
     TPKeyboardAvoidingState *state = objc_getAssociatedObject(self, &kStateKey);
     if ( !state ) {
@@ -46,6 +48,10 @@ static const int kStateKey;
 }
 
 - (void)TPKeyboardAvoiding_keyboardWillShow:(NSNotification*)notification {
+
+    if (isEnableScrollUp == NO) {
+        return;
+    }
     NSDictionary *info = [notification userInfo];
     TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
     
@@ -117,6 +123,10 @@ static const int kStateKey;
     });
 }
 
+- (void)shouldEnableScrollWhenKeyboardUp: (BOOL) isEnable {
+    isEnableScrollUp = isEnable;
+}
+
 - (void)keyboardViewAppear:(NSString *)animationID context:(void *)context {
     self.keyboardAvoidingState.keyboardAnimationInProgress = true;
 }
@@ -135,9 +145,9 @@ static const int kStateKey;
     
     TPKeyboardAvoidingState *state = self.keyboardAvoidingState;
     
-    if ( state.ignoringNotifications ) {
-        return;
-    }
+//    if ( state.ignoringNotifications ) {
+//        return;
+//    }
     
     if ( !state.keyboardVisible ) {
         return;
